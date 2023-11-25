@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <p:layout fullPage="true">
+        <p:layoutUnit position="north" size="60" resizable="true" closable="true" collapsible="true">
+                <h:form>
+                     <p:panelGrid style=" color: pink ; width: 100%;" columns="4">
+                          <p:graphicImage library="css" name="logo.png" alt="Logo" style=" width: 100px; height: 55px;" />
+                          <p:clock pattern="dd/MM/yyyy" mode="client" />
+                        <p:clock pattern="hh:mm:ss" />
+                        
+                    </p:panelGrid>
+                </h:form>
+            </p:layoutUnit>
+
+           <p:layoutUnit position="west" size="175" header="Left" collapsible="true">
+                    <p:menu>
+                        <p:submenu label="Menu">
+                            <p:menuitem value="G.Service"  outcome="/welcomePrimefaces.xhtml" />
+                            <p:menuitem value="G.employes" outcome="/resources/employe.xhtml" />
+                           
+                            <p:menuitem value="Statics" outcome="statics.xhtml" />
+
+                        </p:submenu>
+
+                    </p:menu>
+                </p:layoutUnit>
+            <p:layoutUnit position="center" >
+                <p:panel  header="Statistiques" >
+                    <p:panelGrid columns="2" >
+                        <p:barChart  value="#{serviceBean.initBarModel()}" title="Nombre des employes par service" style=" width : 900px; height: 450px " animate="true" />
+                       
+                    </p:panelGrid>
+                </p:panel>
+            </p:layoutUnit>
+        </p:layout>
+    </h:body>
+          </f:view>
+</html>
+

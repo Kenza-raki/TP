@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>PrimeFaces</title>
+            </f:facet>
+            <style>
+               /* Center the panel */
+        .center-panel {
+            text-align: left;
+            margin: 0 auto; /* Added margin: 0 auto; for centering */
+        }
+    </style>
+        </h:head>
+
+        <h:body>
+
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="60" resizable="true" closable="true" collapsible="true">
+                <h:form>
+                     <p:panelGrid style=" color: pink ; width: 100%;" columns="4">
+                          <p:graphicImage library="css" name="logo.png" alt="Logo" style=" width: 100px; height: 55px;" />
+                          <p:clock pattern="dd/MM/yyyy" mode="client" />
+                        <p:clock pattern="hh:mm:ss" />
+                        
+                    </p:panelGrid>
+                </h:form>
+            </p:layoutUnit>
+
+                
+
+                <p:layoutUnit position="west" size="175" header="Left" collapsible="true">
+                    <p:menu>
+                        <p:submenu label="Menu">
+                           
+                            <p:menuitem value="G.Service"  outcome="/welcomePrimefaces.xhtml" />
+                            <p:menuitem value="G.employes" outcome="/resources/employe.xhtml" /> 
+                            <p:menuitem value="Statics" outcome="/statics.xhtml" />
+
+                        </p:submenu>
+
+                    </p:menu>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <h:form>
+                        <p:panel header="Gestion des services" styleClass="center-button">
+                            <p:panelGrid columns="2">
+                                <p:outputLabel value="Code"></p:outputLabel>
+                                <p:inputText value="#{serviceBean.service.code}"></p:inputText>
+                                <p:outputLabel value="Libelle"></p:outputLabel>
+                                <p:inputText value="#{serviceBean.service.libelle}"></p:inputText>
+                                
+                                <p:commandButton value="Add" actionListener="#{serviceBean.onCreateAction()}" update=":f"></p:commandButton>
+                              
+                            </p:panelGrid>
+                        </p:panel>
+                    </h:form>
+
+                    <p:panel header="Liste">
+                        <h:form id="f">
+                            <p:growl id="messages" showDetail="true"/>
+                            <p:dataTable var="s"  value="#{serviceBean.services}" id="tab">
+                                
+                                <p:column filterBy="#{s.code}" headerText="code">
+                                    <h:outputText value="#{s.code}"></h:outputText>
+                                </p:column>
+                                <p:column headerText="libelle">
+                                    <h:outputText value="#{s.libelle}"></h:outputText>
+                                </p:column>
+                                
+                                  <p:column headerText="Modifier" style="width:20%">
+                                
+                                <p:commandButton id="Modifier" icon= "ui-icon-pencil"
+                                                 update=":f:confirmDialog2" oncomplete="PF('confirmation').show();"
+                                                 title="Modifier">
+                                    <f:setPropertyActionListener target="#{serviceBean.service}"
+                                                                 value="#{m}" />
+                                </p:commandButton>
+                                
+                            </p:column>
+                                 <p:column headerText="Supprimer" style="width:20%">
+                                <p:commandButton id="Supprimer" icon="ui-icon-trash"
+                                                 update=":f:confirmDialog" oncomplete="PF('confirmation').show();"
+                                                 title="Supprime">
+                                    <f:setPropertyActionListener target="#{serviceBean.service}"
+                                                                 value="#{m}" />
+                                </p:commandButton>
+                            </p:column>
+                            </p:dataTable> 
+                            
+                            <p:dialog id="confirmDialog2" showEffect="fade"
+                                  header="Modification d'un service" 
+                                  widgetVar="confirmation">
+                            <h:panelGrid id="display2" columns="2" cellpadding="4"
+                                     style="margin:0 auto;" />
+                            <h:inputHidden value="#{serviceBean.service.id}" id="modif"
+                                           required="true" />
+                            
+                            <p:outputLabel
+                                value="Etes vous sûr de vouloir modifier ce service ?" />
+                            <p:commandButton id="confirm2" value="Oui"
+                                             update="messages,:f:tab,:f:confirmDialog2" 
+                                              />
+
+                            <p:commandButton id="decline2" value="Non"
+                                             onclick="PF('confirmation').hide()" type="button" />
+
+                        </p:dialog>
+                             <p:dialog id="confirmDialog" showEffect="fade"
+                                  header="Suppression d'un service" 
+                                  widgetVar="confirmation">
+                            <h:panelGrid id="display" columns="2" cellpadding="4"
+                                     style="margin:0 auto;" />
+                            <h:inputHidden value="#{serviceBean.service.id}" id="supp"
+                                           required="true" />
+                            
+                            <p:outputLabel
+                                value="Etes vous sûr de vouloir supprimer ce service ?" />
+                            <p:commandButton id="confirm" value="Oui"
+                                             update="messages,:f:tab,:f:confirmDialog" 
+                                             oncomplete="PF('confirmation').hide();location.reload();"
+                                             actionListener="#{serviceBean.onDeleteAction()}" />
+
+                            <p:commandButton id="decline" value="Non"
+                                             onclick="PF('confirmation').hide()" type="button" />
+
+                        </p:dialog>
+                        </h:form>
+                    </p:panel>
+                </p:layoutUnit>
+
+            </p:layout>
+
+        </h:body>
+
+    </f:view>
+</html>
+
